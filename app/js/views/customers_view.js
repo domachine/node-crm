@@ -1,7 +1,13 @@
 var fs = require('fs');
 
 var Backbone = require('backbone');
+var _ = require('underscore');
 
+var modal = require('../lib/modal');
+
+//
+// The view for one item in the list of customers.
+//
 var CustomersItemView = Backbone.View.extend({
   tagName: 'tr',
   template: fs.readFileSync(
@@ -13,10 +19,16 @@ var CustomersItemView = Backbone.View.extend({
     'click [data-action="destroy"]': 'destroy'
   },
 
+  //
+  // Initialize it by loading the html template.
+  //
   initialize: function() {
     this.$el.html(this.template);
   },
 
+  //
+  // Map the model's values onto the html template.
+  //
   render: function() {
     this.el.querySelector('[data-text="name"]')
       .textContent = this.model.get('name') || '';
@@ -26,11 +38,27 @@ var CustomersItemView = Backbone.View.extend({
       .textContent = this.model.get('email') || '';
   },
 
+  //
+  // Destroy the model.
+  //
   destroy: function() {
     var self = this;
 
-    this.model.destroy().done(function() {
-      self.remove();
+    modal.render({
+      title: 'Kunde löschen?',
+      body: [
+        'Soll der Kunde',
+        _.escape(this.model.get("name")),
+        'wirklich gelöscht werden?'
+      ].join(' '),
+      type: 'yesno'
+    });
+    modal.once('closed', function() {
+      if (modal.state === modal.states.YES) {
+        self.model.destroy().done(function() {
+          self.remove();
+        });
+      }
     });
   }
 });

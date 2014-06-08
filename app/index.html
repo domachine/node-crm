@@ -62,12 +62,24 @@
             <div class="modal-body">
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">
-                Nein
-              </button>
-              <button type="button" class="btn btn-primary">
-                Ja
-              </button>
+              <script type="text/template" id="yesno-template">
+                <button type="button"
+                        class="btn btn-default"
+                        data-action="no">
+                  Nein
+                </button>
+                <button type="button" class="btn btn-primary"
+                        data-action="yes">
+                  Ja
+                </button>
+              </script>
+              <script type="text/template" id="ok-template">
+                <button type="button"
+                        class="btn btn-primary"
+                        data-action="ok">
+                  OK
+                </button>
+              </script>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
