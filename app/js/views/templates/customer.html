@@ -1,0 +1,39 @@
+<ol class="breadcrumb">
+  <li><a href="#customers">Kunden</a></li>
+  <li class="active" data-text="name"></li>
+</ol>
+
+<h1 class="page-header">
+  <span data-text="name"></span>
+  <a data-href="edit" class="btn btn-default pull-right">
+    <i class="glyphicon glyphicon-edit"></i>
+  </a>
+</h1>
+
+<div class="jumbotron">
+  <h3>Anstehende Termine</h3>
+</div>
+
+<span data-text="email">
+  <span style="color: grey">E-Mail</span>
+</span>
+
+<div class="row">
+  <div class="col-md-6">
+    <h3>Telefon</h3>
+    <ul data-value="phone">
+      <script type="text/template">
+       <%- number %> <small> — (<%- description %>)</small>
+      </script>
+    </ul>
+  </div>
+  <div class="col-md-6">
+    <h3>Adresse</h3>
+    <p>
+      <span data-text="street_address"></span>
+    </p>
+    <p>
+      <span data-text="zip_code"></span> <span data-text="location"></span>
+    </p>
+  </div>
+</div>
