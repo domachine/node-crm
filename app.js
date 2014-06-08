@@ -2,9 +2,11 @@ var q = require('q');
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var assimilate = require('assimilate');
 
 var app;
 var Customer;
+var Appointment;
 
 app = module.exports = express();
 
@@ -12,6 +14,7 @@ app = module.exports = express();
 require('./models');
 
 Customer = mongoose.model('customer');
+Appointment = mongoose.model('appointment');
 
 app.use('/assets', express.static(__dirname + '/public'));
 app.use(bodyParser());
@@ -78,6 +81,33 @@ app.delete('/customers/:id', function(req, res, next) {
     })
     .then(function(customer) {
       res.send(customer);
+    })
+    .fail(next);
+});
+
+app.get('/customers/:id/appointments', function(req, res, next) {
+  q.ninvoke(Appointment, 'find', { customer: req.params.id })
+    .then(function(appointments) {
+      res.send(appointments);
+    })
+    .fail(next);
+});
+
+app.post('/customers/:id/appointments', function(req, res, next) {
+  q.ninvoke(Customer, 'findById', req.params.id)
+    .then(function(customer) {
+      var appointment;
+
+      if (!customer) {
+        return res.send(404);
+      }
+
+      appointment = new Appointment(req.body);
+      appointment.customer = customer._id;
+      return q.ninvoke(appointment, 'save');
+    })
+    .then(function(appointmentInfo) {
+      res.status(201).send(appointmentInfo[0]);
     })
     .fail(next);
 });

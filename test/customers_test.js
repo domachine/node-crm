@@ -115,5 +115,6 @@ describe('customers', function() {
 
   after(function() {
     mongoose.connection.db.dropDatabase();
+    mongoose.disconnect();
   });
 });

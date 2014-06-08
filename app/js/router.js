@@ -44,11 +44,17 @@ var Router = Backbone.Router.extend({
     }
 
     Backbone.$('#content').html('');
-    customer.fetch().done(function() {
-      self.customerView = new views.CustomerView({ model: customer });
-      self.customerView.render();
-      Backbone.$('#content').append(self.customerView.el);
-    });
+    customer
+      .fetch()
+      .then(function() {
+        customer.appointments = new customer.Appointments();
+        return customer.appointments.fetch();
+      })
+      .done(function() {
+        self.customerView = new views.CustomerView({ model: customer });
+        self.customerView.render();
+        Backbone.$('#content').append(self.customerView.el);
+      });
   },
 
   newCustomer: function() {

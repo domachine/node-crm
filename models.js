@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 var models;
 
 models = [
-  'customer'
+  'customer',
+  'appointment'
 ];
 
 module.exports = models.map(function(name) {

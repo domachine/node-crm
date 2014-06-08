@@ -1,0 +1,8 @@
+div[data-value="phone"] ul {
+  padding: 0;
+  list-style: none;
+}
+
+div[data-value="phone"] i.glyphicon {
+  margin-top: 8px;
+}
