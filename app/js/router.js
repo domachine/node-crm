@@ -14,6 +14,8 @@ var Router = Backbone.Router.extend({
   },
 
   customers: function() {
+    'use strict';
+
     var self = this;
     var customers = new models.Customers();
 
@@ -31,11 +33,15 @@ var Router = Backbone.Router.extend({
       });
   },
 
-  allCustomers: function(skip, limit) {
+  allCustomers: function( /* skip, limit */ ) {
+    'use strict';
+
     this.navigate('', true);
   },
 
   customer: function(id) {
+    'use strict';
+
     var self = this;
     var customer = new models.Customer({ _id: id });
 
@@ -58,6 +64,8 @@ var Router = Backbone.Router.extend({
   },
 
   newCustomer: function() {
+    'use strict';
+
     var self = this;
     var customer = new models.Customer();
     var content;
@@ -74,6 +82,8 @@ var Router = Backbone.Router.extend({
   },
 
   editCustomer: function(id) {
+    'use strict';
+
     var self = this;
     var customer = new models.Customer({ _id: id });
 
@@ -91,6 +101,8 @@ var Router = Backbone.Router.extend({
   },
 
   redirect: function() {
+    'use strict';
+
     this.navigate('customers?skip=0&limit=100', true);
   }
 });

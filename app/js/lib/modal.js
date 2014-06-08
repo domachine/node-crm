@@ -15,6 +15,8 @@ var Modal = Backbone.View.extend({
   },
 
   render: function(opts) {
+    'use strict';
+
     var self = this;
 
     if (opts.title) {
@@ -51,16 +53,22 @@ var Modal = Backbone.View.extend({
   },
 
   setNo: function() {
+    'use strict';
+
     this.state = this.states.NO;
     this.$el.modal('hide');
   },
 
   setYes: function() {
+    'use strict';
+
     this.state = this.states.YES;
     this.$el.modal('hide');
   },
 
   setOk: function() {
+    'use strict';
+
     this.state = this.states.OK;
     this.$el.modal('hide');
   }

@@ -12,6 +12,8 @@ var EditCustomerPhoneItemView = Backbone.View.extend({
   },
 
   initialize: function() {
+    'use strict';
+
     this.el.innerHTML = fs.readFileSync(
       __dirname + '/templates/edit_customer_phone_item.html',
       'utf8'
@@ -19,12 +21,16 @@ var EditCustomerPhoneItemView = Backbone.View.extend({
   },
 
   render: function() {
+    'use strict';
+
     this.el.querySelector('[data-value="number"]').value = this.model.number;
     this.el.querySelector('[data-value="description"]')
       .value = this.model.description;
   },
 
   updateString: function(evt) {
+    'use strict';
+
     var el = evt.target;
     this.model[el.getAttribute('data-value')] = el.value;
   }
@@ -32,6 +38,8 @@ var EditCustomerPhoneItemView = Backbone.View.extend({
 
 var EditCustomerPhoneView = Backbone.View.extend({
   initialize: function() {
+    'use strict';
+
     this.el.innerHTML = fs.readFileSync(
       __dirname + '/templates/edit_customer_phone.html',
       'utf8'
@@ -39,6 +47,8 @@ var EditCustomerPhoneView = Backbone.View.extend({
   },
 
   render: function() {
+    'use strict';
+
     var self = this;
 
     this.model.forEach(function(phone) {
@@ -69,10 +79,14 @@ module.exports = Backbone.View.extend({
   },
 
   initialize: function() {
+    'use strict';
+
     this.el.innerHTML = this.template;
   },
 
   render: function() {
+    'use strict';
+
     var phoneView;
 
     this.query('[data-text="name"]')
@@ -96,7 +110,9 @@ module.exports = Backbone.View.extend({
     this.query('[data-value="phone"]').appendChild(phoneView.el);
   },
 
-  save: function(evt) {
+  save: function() {
+    'use strict';
+
     var self = this;
     this.model.save().done(function() {
       self.render();
@@ -104,15 +120,21 @@ module.exports = Backbone.View.extend({
   },
 
   updateString: function(evt) {
+    'use strict';
+
     var el = evt.target;
     this.model.set(el.getAttribute('data-value'), el.value);
   },
 
   query: function() {
+    'use strict';
+
     return this.el.querySelector.apply(this.el, arguments);
   },
 
   queryAll: function() {
+    'use strict';
+
     return this.el.querySelectorAll.apply(this.el, arguments);
   }
 });

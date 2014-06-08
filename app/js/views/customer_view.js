@@ -11,10 +11,14 @@ var CustomerAppointmentsItemView = Backbone.View.extend({
   ),
 
   initialize: function() {
+    'use strict';
+
     this.el.innerHTML = this.template;
   },
 
   render: function() {
+    'use strict';
+
     var appointmentLink = this.el.querySelector('[data-href="appointment"]');
     appointmentLink.setAttribute('href', '#appointments/' + this.model.id);
     this.el.querySelector('[data-text="from"]')
@@ -28,6 +32,8 @@ var CustomerAppointmentsView = Backbone.View.extend({
   tagName: 'ul',
 
   render: function() {
+    'use strict';
+
     var self = this;
 
     if (this.model) {
@@ -45,6 +51,8 @@ module.exports = Backbone.View.extend({
   template: fs.readFileSync(__dirname + '/templates/customer.html', 'utf8'),
 
   render: function() {
+    'use strict';
+
     var appointmentsView;
     var phoneTemplate;
 

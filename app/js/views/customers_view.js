@@ -23,6 +23,8 @@ var CustomersItemView = Backbone.View.extend({
   // Initialize it by loading the html template.
   //
   initialize: function() {
+    'use strict';
+
     this.$el.html(this.template);
   },
 
@@ -30,6 +32,8 @@ var CustomersItemView = Backbone.View.extend({
   // Map the model's values onto the html template.
   //
   render: function() {
+    'use strict';
+
     this.el.querySelector('[data-text="name"]')
       .textContent = this.model.get('name') || '';
     this.$el.find('[data-href="customer"]')
@@ -42,13 +46,15 @@ var CustomersItemView = Backbone.View.extend({
   // Destroy the model.
   //
   destroy: function() {
+    'use strict';
+
     var self = this;
 
     modal.render({
       title: 'Kunde löschen?',
       body: [
         'Soll der Kunde',
-        _.escape(this.model.get("name")),
+        _.escape(this.model.get('name')),
         'wirklich gelöscht werden?'
       ].join(' '),
       type: 'yesno'
@@ -70,10 +76,14 @@ module.exports = Backbone.View.extend({
   ),
 
   initialize: function() {
+    'use strict';
+
     this.listenTo(this.model, 'add remove', this.render);
   },
 
   render: function() {
+    'use strict';
+
     var self = this;
 
     this.$el.html(this.template);

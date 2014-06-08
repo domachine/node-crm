@@ -5,16 +5,13 @@ var Appointment = Backbone.Model.extend({
   urlRoot: '/appointments'
 });
 
-var Appointments = Backbone.Collection.extend({
-  model: Appointment,
-  url: '/appointments'
-});
-
 exports.Customer = Backbone.Model.extend({
   idAttribute: '_id',
   urlRoot: '/customers',
 
   initialize: function() {
+    'use strict';
+
     var id = this.id;
 
     this.Appointments = Backbone.Collection.extend({
