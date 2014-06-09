@@ -2,13 +2,15 @@ var fs = require('fs');
 
 var Backbone = require('backbone');
 
-var EditCustomerPhoneItemView = Backbone.View.extend({
+var PhoneItemView = Backbone.View.extend({
   tagName: 'li',
   parentView: null,
 
   events: {
     'keyup [data-value="number"]': 'updateString',
-    'keyup [data-value="description"]': 'updateString'
+    'keyup [data-value="description"]': 'updateString',
+
+    'click [data-action="destroy"]': 'destroy'
   },
 
   initialize: function() {
@@ -23,26 +25,52 @@ var EditCustomerPhoneItemView = Backbone.View.extend({
   render: function() {
     'use strict';
 
-    this.el.querySelector('[data-value="number"]').value = this.model.number;
+    this.el.querySelector('[data-value="number"]')
+      .value = this.model.get('number');
     this.el.querySelector('[data-value="description"]')
-      .value = this.model.description;
+      .value = this.model.get('description');
   },
 
   updateString: function(evt) {
     'use strict';
 
     var el = evt.target;
-    this.model[el.getAttribute('data-value')] = el.value;
+    this.model.set(el.getAttribute('data-value'), el.value);
+  },
+
+  destroy: function(evt) {
+    'use strict';
+
+    evt.preventDefault();
+    this.model.collection.remove(this.model);
   }
 });
 
-var EditCustomerPhoneView = Backbone.View.extend({
+var PhoneView = Backbone.View.extend({
+  events: {
+    'click [data-action="add"]': 'add'
+  },
+
   initialize: function() {
     'use strict';
 
     this.el.innerHTML = fs.readFileSync(
       __dirname + '/templates/edit_customer_phone.html',
       'utf8'
+    );
+
+    // Build collection to track state of items.
+    this.views = [];
+    this.collection = new Backbone.Collection(this.model);
+    this.listenTo(
+      this.collection,
+      'change add remove sort',
+      this.serialize
+    );
+    this.listenTo(
+      this.collection,
+      'change add remove sort',
+      this.render
     );
   },
 
@@ -51,13 +79,49 @@ var EditCustomerPhoneView = Backbone.View.extend({
 
     var self = this;
 
-    this.model.forEach(function(phone) {
+    // Remove old (if any) views.
+    this.views.forEach(function(view) {
+      view.remove();
+    });
+    this.views = [];
+    this.collection.each(function(phone) {
       var itemView;
 
-      itemView = new EditCustomerPhoneItemView({ model: phone });
+      itemView = new PhoneItemView({ model: phone });
+      self.views.push(itemView);
       itemView.parentView = self;
       itemView.render();
       self.el.querySelector('ul').appendChild(itemView.el);
+    });
+  },
+
+  //
+  // Add a new phone item.
+  //
+  add: function(evt) {
+    'use strict';
+
+    var phone = { number: '', description: '' };
+
+    evt.preventDefault();
+    this.collection.push(phone);
+
+    // Rerender view.
+    this.render();
+  },
+
+  //
+  // Serialize collection to real model which is represented as array.
+  //
+  serialize: function() {
+    'use strict';
+
+    var self = this;
+
+    // Clear array.
+    this.model.splice(0);
+    this.collection.each(function(phone, index) {
+      self.model[index] = phone.toJSON();
     });
   }
 });
@@ -105,7 +169,7 @@ module.exports = Backbone.View.extend({
     this.query('[data-value="location"]')
       .value = this.model.get('location') || '';
 
-    phoneView = new EditCustomerPhoneView({ model: this.model.get('phone') });
+    phoneView = new PhoneView({ model: this.model.get('phone') });
     phoneView.render();
     this.query('[data-value="phone"]').appendChild(phoneView.el);
   },
