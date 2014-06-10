@@ -1,0 +1,8 @@
+{
+  "Customers": "Customers",
+  "customerCount": "__count__ customer",
+  "customerCount_plural": "__count__ customers",
+
+  "New_customer": "New customer",
+  "Search_customer": "Search customer"
+}

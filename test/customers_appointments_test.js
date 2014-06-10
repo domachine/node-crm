@@ -1,6 +1,7 @@
 /* global describe, it */
 
 var q = require('q');
+var express = require('express');
 var mongoose = require('mongoose');
 var chai = require('chai');
 var should = chai.should();
@@ -12,7 +13,8 @@ describe('customers appointments', function() {
   before(function(next) {
     mongoose.connect('mongodb://localhost/test');
     mongoose.connection.db.dropDatabase();
-    var app = require('..');
+    var app = express();
+    app.use('/customers', require('../routes/customers'));
     q.ninvoke(
       request(app).post('/customers').send({ name: 'Test user' }),
       'end'
@@ -24,7 +26,8 @@ describe('customers appointments', function() {
 
   describe('POST /customers/:id/appointments', function() {
     it('should create an appointment', function(next) {
-      var app = require('..');
+      var app = express();
+      app.use('/customers', require('../routes/customers_appointments'));
       var from = new Date();
       var to = new Date(new Date() + 300000);
       q.ninvoke(
@@ -48,8 +51,9 @@ describe('customers appointments', function() {
   });
 
   describe('GET /customers/:id/appointments', function() {
-    it('should fetch the customers', function(next) {
-      var app = require('..');
+    it('should fetch the customer\'s appointments', function(next) {
+      var app = express();
+      app.use('/customers', require('../routes/customers_appointments'));
       q.ninvoke(
         request(app).get('/customers/' + customerId + '/appointments'),
         'end'

@@ -7,8 +7,8 @@ models = [
   'appointment'
 ];
 
-module.exports = models.map(function(name) {
+models.forEach(function(name) {
   'use strict';
 
-  require('./models/' + name);
+  exports[name[0].toUpperCase() + name.slice(1)] = require('./models/' + name);
 });

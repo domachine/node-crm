@@ -26,6 +26,8 @@ var CustomersItemView = Backbone.View.extend({
     'use strict';
 
     this.$el.html(this.template);
+    this.el.querySelector('[data-action="destroy"]')
+      .textContent = i18n.t('Delete');
   },
 
   //
@@ -78,6 +80,11 @@ module.exports = Backbone.View.extend({
   initialize: function() {
     'use strict';
 
+    this.$el.html(this.template);
+    this.el.querySelector('a[href="#customers/new"]')
+      .textContent = i18n.t('New_customer');
+    this.el.querySelector('input[data-action="search_customer"]')
+      .textContent = i18n.t('Search_customer');
     this.listenTo(this.model, 'add remove', this.render);
   },
 
@@ -86,9 +93,8 @@ module.exports = Backbone.View.extend({
 
     var self = this;
 
-    this.$el.html(this.template);
     this.$el.find('.jumbotron [data-value="customers-count"]').text(
-      this.model.length === 1 ? '1 Kunde' : this.model.length + ' Kunden'
+      i18n.t('customerCount', { count: this.model.length })
     );
     this.model.each(function(customer) {
       var view = new CustomersItemView({ model: customer });

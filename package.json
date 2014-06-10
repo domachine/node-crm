@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "browserify app/js/app.js -o public/js/app.js",
+    "build": "browserify app/js/app.js -t brfs -o public/js/app.js",
     "watch": "watchify app/js/app.js -t brfs -o public/js/app.js -v",
     "test": "mocha --reporter spec test/"
   },
@@ -13,10 +13,15 @@
   "dependencies": {
     "assimilate": "^0.4.0",
     "body-parser": "^1.3.0",
+    "connect": "^2.19.5",
+    "cookie-parser": "^1.1.0",
     "express": "^4.4.1",
     "moment": "^2.6.0",
     "mongoose": "^3.8.12",
+    "passport": "^0.2.0",
+    "passport-twitter": "^1.0.2",
     "q": "^1.0.1",
+    "serve-static": "^1.2.2",
     "underscore": "^1.6.0"
   },
   "devDependencies": {

@@ -1,0 +1,8 @@
+{
+  "Customers": "Kunden",
+  "customerCount": "__count__ Kunde",
+  "customerCount_plural": "__count__ Kunden",
+
+  "New_customer": "Neuer Kunde",
+  "Delete": "Löschen"
+}

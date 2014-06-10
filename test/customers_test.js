@@ -1,6 +1,7 @@
 /* global describe, it */
 
 var q = require('q');
+var express = require('express');
 var mongoose = require('mongoose');
 var chai = require('chai');
 var should = chai.should();
@@ -14,7 +15,8 @@ describe('customers', function() {
 
   describe('GET /customers', function() {
     it('should fetch the customers', function(next) {
-      var app = require('..');
+      var app = express();
+      app.use('/customers', require('../routes/customers'));
       request(app)
         .get('/customers')
         .end(function(error, res) {
@@ -28,7 +30,8 @@ describe('customers', function() {
 
   describe('POST /customers', function() {
     it('should insert a customer', function(next) {
-      var app = require('..');
+      var app = express();
+      app.use('/customers', require('../routes/customers'));
       q.ninvoke(
         request(app)
           .post('/customers')
@@ -52,7 +55,8 @@ describe('customers', function() {
 
   describe('GET /customers/:id', function() {
     it('should retrieve a customer', function(next) {
-      var app = require('..');
+      var app = express();
+      app.use('/customers', require('../routes/customers'));
       q.ninvoke(request(app).get('/customers'), 'end')
         .then(function(res) {
           var id = res.body[0]._id;
@@ -69,7 +73,8 @@ describe('customers', function() {
 
   describe('PUT /customers/:id', function() {
     it('should update a customer', function(next) {
-      var app = require('..');
+      var app = express();
+      app.use('/customers', require('../routes/customers'));
       var id;
       q.ninvoke(request(app).get('/customers'), 'end')
         .then(function(res) {
@@ -94,7 +99,8 @@ describe('customers', function() {
 
   describe('DELETE /customers/:id', function() {
     it('should delete a customer', function(next) {
-      var app = require('..');
+      var app = express();
+      app.use('/customers', require('../routes/customers'));
       var id;
       q.ninvoke(request(app).get('/customers'), 'end')
         .then(function(res) {
